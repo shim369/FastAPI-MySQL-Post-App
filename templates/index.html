@@ -1,48 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post List</title>
-</head>
-<body>
-    <h1>Post List</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>URL</th>
-            <th>User ID</th>
-            <th>Actions</th>
-        </tr>
-        {% for post in posts %}
-        <tr>
-            <td>{{ post.id }}</td>
-            <td>{{ post.title }}</td>
-            <td>{{ post.url }}</td>
-            <td>{{ post.user_id }}</td>
-            <td>
-                <button onclick="deletePost('{{ post.id }}')">Delete</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <script>
-        async function deletePost(postId) {
-            try {
-                const response = await fetch(`/posts/${postId}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    location.reload();
-                } else {
-                    console.error('Failed to delete post');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    </script>
-</body>
-</html>
+{% extends 'base.html' %} {% block main %}
+<main>
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <div class="card-body p-4 p-md-5">
+            <h2 class="text-center">Post List</h2>
+            <table class="table">
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>URL</th>
+                <th>User ID</th>
+                <th>Actions</th>
+              </tr>
+              {% for post in posts %}
+              <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.url }}</td>
+                <td>{{ post.user_id }}</td>
+                <td>
+                  <a href="/posts/{{ post.id }}" class="btn btn-outline-success"
+                    ><i class="bi bi-pencil-square"></i
+                  ></a>
+                  <button
+                    onclick="deletePost('{{ post.id }}')"
+                    class="btn btn-outline-danger"
+                  >
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/static/js/deletePost.js"></script>
+{% endblock %}
