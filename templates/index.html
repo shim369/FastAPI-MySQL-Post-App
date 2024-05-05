@@ -7,12 +7,13 @@
 </head>
 <body>
     <h1>Post List</h1>
-    <table border="1">
+    <table>
         <tr>
             <th>ID</th>
             <th>Title</th>
             <th>URL</th>
             <th>User ID</th>
+            <th>Actions</th>
         </tr>
         {% for post in posts %}
         <tr>
@@ -20,8 +21,28 @@
             <td>{{ post.title }}</td>
             <td>{{ post.url }}</td>
             <td>{{ post.user_id }}</td>
+            <td>
+                <button onclick="deletePost('{{ post.id }}')">Delete</button>
+            </td>
         </tr>
         {% endfor %}
     </table>
+
+    <script>
+        async function deletePost(postId) {
+            try {
+                const response = await fetch(`/posts/${postId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Failed to delete post');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
 </body>
 </html>

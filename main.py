@@ -52,9 +52,10 @@ async def read_post(post_id: int, db: db_dependency):
 async def delete_post(post_id: int, db: db_dependency):
     db_post = db.query(models.Post).filter(models.Post.id == post_id).first()
     if db_post is None:
-        raise HTTPException(status_code=404,detail='User not found')
+        raise HTTPException(status_code=404,detail='Post not found')
     db.delete(db_post)
     db.commit()
+    return {"message": "Post deleted successfully"}
 
 @app.post("/users/", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserBase, db: db_dependency):
