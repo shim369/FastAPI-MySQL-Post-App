@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Request, status, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Annotated
 import models
 from database import engine, SessionLocal
@@ -17,7 +17,7 @@ models.Base.metadata.create_all(bind=engine)
 class PostBase(BaseModel):
     title: str
     url: str
-    user_id: int
+    user_id: int = Field(..., ge=1)
 
 class UserBase(BaseModel):
     username: str
@@ -37,11 +37,17 @@ async def read_root(request: Request, db: db_dependency):
     context = {"request": request, "posts": posts, "title": "FastAPI MySQL App"}
     return templates.TemplateResponse("index.html", context)
 
+@app.get("/add_post", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def add_post_form(request: Request):
+    context = {"request": request, "title": "Add Post | FastAPI MySQL App"}
+    return templates.TemplateResponse("add.html", context)
+
 @app.post("/posts/", status_code=status.HTTP_201_CREATED)
 async def create_post(post: PostBase, db: db_dependency):
     db_post = models.Post(**post.dict())
     db.add(db_post)
     db.commit()
+    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
 
 @app.get("/posts/{post_id}", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 async def read_post(post_id: int, db: db_dependency, request: Request):
