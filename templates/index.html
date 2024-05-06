@@ -1,44 +1,32 @@
 {% extends 'base.html' %} {% block main %}
-<main>
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
-        <div class="card rounded-3">
-          <div class="card-body p-4 p-md-5">
-            <h2 class="text-center">Post List</h2>
-            <table class="table">
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>URL</th>
-                <th>User ID</th>
-                <th>Actions</th>
-              </tr>
-              {% for post in posts %}
-              <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.url }}</td>
-                <td>{{ post.user_id }}</td>
-                <td>
-                  <a href="/posts/{{ post.id }}" class="btn btn-outline-success"
-                    ><i class="bi bi-pencil-square"></i
-                  ></a>
-                  <button
-                    onclick="deletePost('{{ post.id }}')"
-                    class="btn btn-outline-danger"
-                  >
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </td>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+<h2 class="text-center">Post List</h2>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>URL</th>
+    <th>User ID</th>
+    <th>Actions</th>
+  </tr>
+  {% for post in posts %}
+  <tr>
+    <td>{{ post.id }}</td>
+    <td>{{ post.title }}</td>
+    <td>{{ post.url }}</td>
+    <td>{{ post.user_id }}</td>
+    <td>
+      <a href="/posts/{{ post.id }}" class="btn btn-outline-success"
+        ><i class="bi bi-pencil-square"></i
+      ></a>
+      <button
+        onclick="deletePost('{{ post.id }}')"
+        class="btn btn-outline-danger"
+      >
+        <i class="bi bi-trash-fill"></i>
+      </button>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
 <script src="/static/js/deletePost.js"></script>
 {% endblock %}

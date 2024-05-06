@@ -1,62 +1,41 @@
 {% extends 'base.html' %} {% block main %}
-<main>
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
-        <div class="card rounded-3">
-          <div class="card-body p-4 p-md-5">
-            <h2 class="text-center">Edit Post</h2>
-            <form
-              action="/posts/{{ post.id }}/update"
-              method="POST"
-              class="mt-2"
-            >
-              <div class="mb-3">
-                <label for="id" class="form-label">id</label>
-                <input
-                  id="id"
-                  name="id"
-                  value="{{ post.id }}"
-                  class="form-control"
-                  disabled
-                />
-              </div>
-              <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value="{{ post.title }}"
-                  class="form-control"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="url" class="form-label">URL</label>
-                <input
-                  id="url"
-                  name="url"
-                  value="{{ post.url }}"
-                  class="form-control"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="userid" class="form-label">User id</label>
-                <input
-                  id="userid"
-                  name="userid"
-                  value="{{ post.user_id }}"
-                  class="form-control"
-                  disabled
-                />
-              </div>
-              <button type="submit" class="btn btn-primary">Update Post</button>
-              <input type="hidden" name="user_id" value="{{ post.user_id }}" />
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+<h2 class="text-center">Edit Post</h2>
+<form action="/posts/{{ post.id }}/update" method="POST" class="mt-2">
+  <div class="mb-3">
+    <label for="id" class="form-label">id</label>
+    <input
+      id="id"
+      name="id"
+      value="{{ post.id }}"
+      class="form-control"
+      disabled
+    />
   </div>
-</main>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      value="{{ post.title }}"
+      class="form-control"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="url" class="form-label">URL</label>
+    <input id="url" name="url" value="{{ post.url }}" class="form-control" />
+  </div>
+  <div class="mb-3">
+    <label for="userid" class="form-label">User id</label>
+    <input
+      id="userid"
+      name="userid"
+      value="{{ post.user_id }}"
+      class="form-control"
+      disabled
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Update Post</button>
+  <input type="hidden" name="user_id" value="{{ post.user_id }}" />
+</form>
 {% endblock %}
