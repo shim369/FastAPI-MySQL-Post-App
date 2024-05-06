@@ -17,10 +17,6 @@ models.Base.metadata.create_all(bind=engine)
 class PostBase(BaseModel):
     title: str
     url: str
-    user_id: int = Field(..., ge=1)
-
-class UserBase(BaseModel):
-    username: str
 
 def get_db():
     db = SessionLocal()
@@ -63,7 +59,6 @@ async def update_post(
     post_id: int, 
     title: str = Form(...),
     url: str = Form(...),
-    user_id: int = Form(...),
     db: Session = Depends(get_db)
 ):
     db_post = db.query(models.Post).filter(models.Post.id == post_id).first()
@@ -72,7 +67,6 @@ async def update_post(
 
     db_post.title = title
     db_post.url = url
-    db_post.user_id = user_id
     db.commit()
     
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
@@ -86,16 +80,3 @@ async def delete_post(post_id: int, db: db_dependency):
     db.delete(db_post)
     db.commit()
     return {"message": "Post deleted successfully"}
-
-@app.post("/users/", status_code=status.HTTP_201_CREATED)
-async def create_user(user: UserBase, db: db_dependency):
-    db_user = models.User(**user.dict())
-    db.add(db_user)
-    db.commit()
-
-@app.get("/users/{user_id}", status_code=status.HTTP_200_OK)
-async def read_user(user_id: int, db: db_dependency):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if user is None:
-        raise HTTPException(status_code=404,detail='User not found')
-    return user
