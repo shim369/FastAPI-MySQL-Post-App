@@ -25,17 +25,6 @@
     <label for="url" class="form-label">URL</label>
     <input id="url" name="url" value="{{ post.url }}" class="form-control" />
   </div>
-  <div class="mb-3">
-    <label for="userid" class="form-label">User id</label>
-    <input
-      id="userid"
-      name="userid"
-      value="{{ post.user_id }}"
-      class="form-control"
-      disabled
-    />
-  </div>
   <button type="submit" class="btn btn-primary">Update Post</button>
-  <input type="hidden" name="user_id" value="{{ post.user_id }}" />
 </form>
 {% endblock %}
